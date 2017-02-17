@@ -20,6 +20,12 @@ typedef void(^STPAPIResponseBlock)(ResponseType object, NSHTTPURLResponse *respo
                serializer:(ResponseType)serializer
                completion:(STPAPIResponseBlock)completion;
 
++ (void)postWithAPIClient:(STPAPIClient *)apiClient
+                 endpoint:(NSString *)endpoint
+               parameters:(NSDictionary *)parameters
+               serializer:(ResponseType)serializer
+               completion:(STPAPIResponseBlock)completion;
+
 + (void)getWithAPIClient:(STPAPIClient *)apiClient
                 endpoint:(NSString *)endpoint
               parameters:(NSDictionary *)parameters

@@ -6,11 +6,13 @@
 //  Copyright © 2015 Stripe, Inc. All rights reserved.
 //
 
+#import "STPAPIRequest.h"
+
 #import "NSMutableURLRequest+Stripe.h"
 #import "STPAPIClient+Private.h"
 #import "STPAPIClient.h"
+#import "STPFormEncoder.h"
 #import "STPDispatchFunctions.h"
-#import "STPAPIRequest.h"
 #import "StripeError.h"
 
 @implementation STPAPIRequest
@@ -34,6 +36,28 @@
                          completion:completion];
     }] resume];
 
+}
+
++ (void)postWithAPIClient:(STPAPIClient *)apiClient
+                 endpoint:(NSString *)endpoint
+               parameters:(NSDictionary *)parameters
+               serializer:(id<STPAPIResponseDecodable>)serializer
+               completion:(STPAPIResponseBlock)completion {
+
+    NSURL *url = [apiClient.apiURL URLByAppendingPathComponent:endpoint];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    request.HTTPMethod = @"POST";
+    NSString *query = [STPFormEncoder queryStringFromParameters:parameters];
+    request.HTTPBody = [query dataUsingEncoding:NSUTF8StringEncoding];
+
+    [[apiClient.urlSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable body, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        [[self class] parseResponse:response
+                               body:body
+                              error:error
+                         serializer:serializer
+                         completion:completion];
+    }] resume];
+    
 }
 
 + (void)getWithAPIClient:(STPAPIClient *)apiClient

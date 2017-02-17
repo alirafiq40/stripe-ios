@@ -142,6 +142,23 @@ static NSString *const stripeAPIVersion = @"2015-10-12";
                                       }];
 }
 
+- (void)createTokenWithParameters:(NSDictionary *)parameters
+                       completion:(STPTokenCompletionBlock)completion {
+    NSCAssert(parameters != nil, @"'parameters' is required to create a token");
+    NSCAssert(completion != nil, @"'completion' is required to use the token that is created");
+    NSDate *start = [NSDate date];
+    [[STPAnalyticsClient sharedClient] logTokenCreationAttemptWithConfiguration:self.configuration];
+    [STPAPIRequest<STPToken *> postWithAPIClient:self
+                                        endpoint:tokenEndpoint
+                                      parameters:parameters
+                                      serializer:[STPToken new]
+                                      completion:^(STPToken *object, NSHTTPURLResponse *response, NSError *error) {
+                                          NSDate *end = [NSDate date];
+                                          [[STPAnalyticsClient sharedClient] logRUMWithToken:object configuration:self.configuration response:response start:start end:end];
+                                          completion(object, error);
+                                      }];
+}
+
 #pragma mark - private helpers
 
 #pragma clang diagnostic push

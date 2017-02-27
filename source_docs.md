@@ -149,7 +149,10 @@ While polling, be sure to update your app's UI in order to prevent your customer
         return;
     }
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
-    [[STPAPIClient sharedClient] startPollingSourceWithId:self.source.stripeID clientSecret:self.source.clientSecret completion:^(STPSource *source, NSError *error) {
+    [[STPAPIClient sharedClient] startPollingSourceWithId:self.source.stripeID
+                                             clientSecret:self.source.clientSecret
+                                                  timeout:10
+                                               completion:^(STPSource *source, NSError *error) {
         [self dismissPollingUI];
         if (error) {
             [self.delegate exampleViewController:self didFinishWithError:error];
@@ -173,7 +176,10 @@ func handleAppForeground() {
         return
     }
     NotificationCenter.default.removeObserver(self, name: .UIApplicationWillEnterForeground, object: nil)
-    STPAPIClient.shared().startPollingSource(withId: s.stripeID, clientSecret: clientSecret, completion: { (source, error) in
+    STPAPIClient.shared().startPollingSource(withId: s.stripeID,
+                                             clientSecret: clientSecret,
+                                             timeout: 10,
+                                             completion: { (source, error) in
         self.dismissPollingUI()
         if let s = source, s.status == .consumed {
             self.displayOrderConfirmation("Payment successfully created")

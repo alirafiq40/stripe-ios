@@ -108,7 +108,7 @@
     NSURL *url = [NSURL URLWithString:urlString];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     request.HTTPMethod = @"POST";
-    NSString *postBody = [NSString stringWithFormat:@"source=%@&amount=%@", sourceID, @1099];
+    NSString *postBody = [NSString stringWithFormat:@"source=%@&amount=%@", sourceID, @99];
     NSData *data = [postBody dataUsingEncoding:NSUTF8StringEncoding];
 
     NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request

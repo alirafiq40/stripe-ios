@@ -13,7 +13,7 @@ NSString *const StripePublishableKey = @"pk_live_rsos9KggpkJEaMgJ4zkBvMeL"; // T
 
 // To set this up, check out https://github.com/stripe/example-ios-backend
 // This should be in the format https://my-shiny-backend.herokuapp.com
-NSString *const BackendBaseURL = nil; // TODO: replace nil with your own value
+NSString *const BackendBaseURL = @"https://sources-testing.herokuapp.com"; // TODO: replace nil with your own value
 
 // To learn how to obtain an Apple Merchant ID, head to https://stripe.com/docs/mobile/apple-pay
 NSString *const AppleMerchantId = nil; // TODO: replace nil with your own value
